@@ -49,11 +49,40 @@
     state: present
   when: ansible_facts.os_family == "Archlinux"
 
+- name: Check for Docker Compose using Pip.
+  ansible.builtin.pip:
+    name: docker-compose
+    state: present
+    executable: pip3
+  check_mode: true
+  register: docker_compose_installed
+
+- name: Debug
+  ansible.builtin.debug:
+    var: docker_compose_installed
+
+- name: Install rust for cryptography pip package
+  ansible.builtin.apt:
+    name:
+      - cargo
+      - rustc
+    state: present
+  when: docker_compose_installed.changed == true and ansible_facts.os_family == "Debian"
+
 - name: Install Docker Compose using Pip.
   ansible.builtin.pip:
     name: docker-compose
     state: present
     executable: pip3
+  register: docker_compose_installation
+
+- name: Remove rust after installing docker-compose
+  ansible.builtin.apt:
+    name:
+      - cargo
+      - rustc
+    state: absent
+  when: docker_compose_installation.changed == true and ansible_facts.os_family == "Debian"
 
 - name: Ensure {{ ansible_user }} user is added to the docker group.
   ansible.builtin.user:
