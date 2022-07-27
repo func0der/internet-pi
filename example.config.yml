@@ -13,3 +13,4 @@ monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
   - https://www.apple.com/;apple.com
   - https://1.1.1.1/;cloudflare dns
   - https://8.8.8.8/;google dns
+  - https://www.heise.de/;heise
