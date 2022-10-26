@@ -6,10 +6,13 @@ config_dir: '~'
 monitoring_enable: true
 monitoring_grafana_admin_password: "admin"
 monitoring_speedtest_interval: 60m
-monitoring_ping_interval: 1s
-monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
+monitoring_http_interval: 1s
+monitoring_http_hosts:  # [URL];[HUMAN_READABLE_NAME]
   - https://www.google.com/;google.com
   - https://github.com/;github.com
   - https://www.apple.com/;apple.com
-  - https://1.1.1.1/;cloudflare dns
-  - https://8.8.8.8/;google dns
+monitoring_ping_interval: 1s
+monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
+  - 192.168.0.9;router
+  - 192.168.255.253;fritz
+  - 1.1.1.1;Cloudflare
