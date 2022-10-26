@@ -422,7 +422,9 @@
       "dashes": false,
       "datasource": "prometheus",
       "fieldConfig": {
-        "defaults": {},
+        "defaults": {
+          "unit": "s"
+        },
         "overrides": []
       },
       "fill": 1,
