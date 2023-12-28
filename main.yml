@@ -36,3 +36,8 @@
     - name: Set up Internet Monitoring.
       ansible.builtin.import_tasks: tasks/internet-monitoring.yml
       when: monitoring_enable
+
+    - name: Set up PiHole
+      tags:
+        - pihole
+      ansible.builtin.import_tasks: tasks/pihole.yml

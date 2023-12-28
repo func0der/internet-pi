@@ -1,0 +1,26 @@
+---
+version: "3.1"
+
+networks:
+  front-tier:
+
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80/tcp"
+    environment:
+      TZ: 'Europe/Berlin'
+      WEBPASSWORD: 'set a secure password here or it will be random'
+      PIHOLE_DNS_: 1.1.1.1;9.9.9.9;1.0.0.1
+      DNSSEC: 'true'
+    # Volumes store your data between container upgrades
+    volumes:
+      - './config:/etc/pihole'
+      - './dnsmasq-config:/etc/dnsmasq.d'
+    restart: unless-stopped
+    networks:
+      - front-tier

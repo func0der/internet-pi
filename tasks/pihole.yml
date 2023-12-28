@@ -1,0 +1,27 @@
+---
+- name: Gather package facts.
+  ansible.builtin.package_facts:
+    manager: auto
+  when: ansible_facts.userspace_bits == '32'
+
+- name: Upgrade libseccomp2 to latest version (32-bit Debian).
+  ansible.builtin.import_tasks: tasks/debian-libseccomp-update.yml
+  when:
+    - ansible_facts.os_family == "Debian"
+    - ansible_facts.userspace_bits == '32'
+    - ansible_facts.packages['libseccomp2'][0]['version'] is version('2.4.4', '<')
+
+- name: Synchronize pihole directory.
+  ansible.posix.synchronize:
+    src: pihole
+    dest: "{{ config_dir }}/"
+    delete: false
+    recursive: true
+    perms: false
+  become: false
+
+- name: Ensure pihole environment is running.
+  docker_compose:
+    project_src: "{{ config_dir }}/pihole/"
+    build: false
+  become: false
